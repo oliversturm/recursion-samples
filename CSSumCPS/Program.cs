@@ -1,5 +1,4 @@
-﻿class Program
-{
+﻿class Program {
   static Action<int> OutputResult(string prefix) => (int value) => Console.WriteLine($"{prefix}: {value}");
 
   static int SumRec(int[] l) => l switch
@@ -8,12 +7,28 @@
     [var x, .. var xs] => x + SumRec(xs)
   };
 
-  static int SumRecSeq(IEnumerable<int> s) => s.Any() ? s.First() + SumRecSeq(s.Skip(1)) : 0;
+  static int SumRecSeq(IEnumerable<int> s) {
+    // using long syntax for clarity
+    if (s.Any()) {
+      return s.First() + SumRecSeq(s.Skip(1));
+    }
+    else {
+      return 0;
+    }
+  }
 
-  static void SumCps(int[] l, Action<int> continuation)
-  {
-    switch (l)
-    {
+  static int SumRecSeqTail(IEnumerable<int> s, int result = 0) {
+    // using long syntax for clarity
+    if (s.Any()) {
+      return SumRecSeqTail(s.Skip(1), result + s.First());
+    }
+    else {
+      return result;
+    }
+  }
+
+  static void SumCps(int[] l, Action<int> continuation) {
+    switch (l) {
       case []: continuation(0); break;
       case [var x, .. var xs]: SumCps(xs, ix => continuation(ix + x)); break;
     };
@@ -28,8 +43,7 @@
     SumCpsSeq(s.Skip(1), ix => continuation(ix + s.First()));
   }
 
-  public static void Main()
-  {
+  public static void Main() {
     // var t = new int[] { 1, 2, 3 };
 
     // Console.WriteLine($"First: {t.First()}");
@@ -44,6 +58,7 @@
     OutputResult("SumRec l1")(SumRec(l1));
     SumCps(l1, OutputResult("sumCps l1"));
     OutputResult("SumRecSeq l1")(SumRecSeq(l1));
+    OutputResult("SumRecSeqTail l1")(SumRecSeqTail(l1));
     SumCpsSeq(l1, OutputResult("sumCpsSeq l1"));
 
     var longList = Enumerable.Range(1, 300000).ToArray();
@@ -59,6 +74,10 @@
     // expect. Runs for 261361 iterations.
     //OutputResult("SumRecSeq long")(SumRecSeq(longList));
 
+    // This one runs for 174220 iterations before crashing with 
+    // a stack overflow
+    OutputResult("SumRecSeqTail long")(SumRecSeqTail(longList));
+
     // This still crashes, after 130185 iterations. Interesting...
     // I think the compiler does not optimize the recursion like
     // the F# compiler does, and apparently there's no tail call
@@ -66,6 +85,6 @@
     //SumCps(longList, OutputResult("sumCps long"));
 
     // Crashes again, this time after 104539 iterations.
-    SumCpsSeq(longList, OutputResult("sumCpsSeq long"));
+    //SumCpsSeq(longList, OutputResult("sumCpsSeq long"));
   }
 }

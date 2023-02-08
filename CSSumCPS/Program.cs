@@ -1,13 +1,13 @@
 ﻿class Program {
-  static Action<int> OutputResult(string prefix) => (int value) => Console.WriteLine($"{prefix}: {value}");
+  static Action<ulong> OutputResult(string prefix) => (ulong value) => Console.WriteLine($"{prefix}: {value}");
 
-  static int SumRec(int[] l) => l switch
+  static ulong SumRec(ulong[] l) => l switch
   {
     [] => 0,
     [var x, .. var xs] => x + SumRec(xs)
   };
 
-  static int SumRecSeq(IEnumerable<int> s) {
+  static ulong SumRecSeq(IEnumerable<ulong> s) {
     // using long syntax for clarity
     if (s.Any()) {
       return s.First() + SumRecSeq(s.Skip(1));
@@ -17,7 +17,7 @@
     }
   }
 
-  static int SumRecSeqTail(IEnumerable<int> s, int result = 0) {
+  static ulong SumRecSeqTail(IEnumerable<ulong> s, ulong result = 0) {
     // using long syntax for clarity
     if (s.Any()) {
       return SumRecSeqTail(s.Skip(1), result + s.First());
@@ -27,14 +27,23 @@
     }
   }
 
-  static void SumCps(int[] l, Action<int> continuation) {
+
+  static ulong SumRecMaxTail(ulong max, ulong val, ulong result = 0) {
+    if (val < max)
+      return SumRecMaxTail(max, val + 1, result + val);
+    else
+      return result;
+  }
+
+
+  static void SumCps(ulong[] l, Action<ulong> continuation) {
     switch (l) {
       case []: continuation(0); break;
       case [var x, .. var xs]: SumCps(xs, ix => continuation(ix + x)); break;
     };
   }
 
-  static void SumCpsSeq(IEnumerable<int> s, Action<int> continuation) {
+  static void SumCpsSeq(IEnumerable<ulong> s, Action<ulong> continuation) {
     if (!s.Any()) {
       continuation(0);
       return;
@@ -43,8 +52,15 @@
     SumCpsSeq(s.Skip(1), ix => continuation(ix + s.First()));
   }
 
+  static IEnumerable<ulong> Range(ulong start, ulong count) {
+    for (ulong x = start; x < start + count; x++) {
+      yield return x;
+    }
+  }
+
+
   public static void Main() {
-    // var t = new int[] { 1, 2, 3 };
+    // var t = new ulong[] { 1, 2, 3 };
 
     // Console.WriteLine($"First: {t.First()}");
     // var t2 = t.Skip(2);
@@ -54,14 +70,14 @@
     //   Console.WriteLine("Sequence is now empty");
     // return;
 
-    var l1 = new int[] { 2, 3, 6, 8 };
+    var l1 = new ulong[] { 2, 3, 6, 8 };
     OutputResult("SumRec l1")(SumRec(l1));
     SumCps(l1, OutputResult("sumCps l1"));
     OutputResult("SumRecSeq l1")(SumRecSeq(l1));
     OutputResult("SumRecSeqTail l1")(SumRecSeqTail(l1));
     SumCpsSeq(l1, OutputResult("sumCpsSeq l1"));
 
-    var longList = Enumerable.Range(1, 300000).ToArray();
+    //var longList = Enumerable.Range(1, 300000).ToArray();
 
     // This crashes. It also uses 2.5GB memory on the way there,
     // and it takes a very long time. I suspect that the pattern
@@ -76,7 +92,7 @@
 
     // This one runs for 174220 iterations before crashing with 
     // a stack overflow
-    OutputResult("SumRecSeqTail long")(SumRecSeqTail(longList));
+    OutputResult("SumRecSeqTail long")(SumRecSeqTail(Range(1, 300000)));
 
     // This still crashes, after 130185 iterations. Interesting...
     // I think the compiler does not optimize the recursion like

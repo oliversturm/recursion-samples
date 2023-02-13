@@ -1,4 +1,6 @@
-﻿class Program {
+﻿using System.Diagnostics.CodeAnalysis;
+
+class Program {
   static Action<ulong> OutputResult(string prefix) => (ulong value) => Console.WriteLine($"{prefix}: {value}");
 
   static ulong SumRec(ulong[] l) => l switch
@@ -35,36 +37,43 @@
       return result;
   }
 
-  class TrampolineResult<Tout> {
+  // Encapsulation of the either/or result 
+  // Not needed in dynamic languages
+  public class TrampolineResult<Tout> {
     public TrampolineResult(Func<TrampolineResult<Tout>> continuation) {
       IsContinuation = true;
       this.Continuation = continuation;
+      this.Result = default!; // satisfy compiler
     }
     public bool IsContinuation { get; }
-    public Func<TrampolineResult<Tout>>? Continuation { get; }
+    public Func<TrampolineResult<Tout>> Continuation { get; }
 
     public TrampolineResult(Tout result) {
       IsContinuation = false;
       this.Result = result;
+      this.Continuation = default!; // satisfy compiler
     }
-    public Tout? Result { get; }
+    public Tout Result { get; }
   }
 
-  static Tout Trampoline<Tout>(TrampolineResult<Tout> tr) {
-    var currentResult = tr;
-    while (currentResult != null && currentResult.IsContinuation)
-      currentResult = currentResult?.Continuation?.Invoke();
-    if (currentResult != null)
-      return currentResult.Result!;
-    else
-      throw new Exception("No result");
+  // Syntactic convenience
+  public class TrampolineResult {
+    public static TrampolineResult<Tout> From<Tout>(Tout result) => new(result);
+    public static TrampolineResult<Tout> From<Tout>(Func<TrampolineResult<Tout>> continuation) => new(continuation);
+  }
+
+  public static Tout Trampoline<Tout>(Func<TrampolineResult<Tout>> f) {
+    var currentResult = new TrampolineResult<Tout>(f);
+    while (currentResult.IsContinuation)
+      currentResult = currentResult.Continuation.Invoke();
+    return currentResult.Result;
   }
 
   static TrampolineResult<ulong> SumTrampoline(ulong x, ulong current = 0) {
     if (x == 0)
-      return new TrampolineResult<ulong>(current);
+      return TrampolineResult.From(current);
     else
-      return new TrampolineResult<ulong>(() => SumTrampoline(x - 1, current + x));
+      return TrampolineResult.From(() => SumTrampoline(x - 1, current + x));
   }
 
   static void SumCps(ulong[] l, Action<ulong> continuation) {
@@ -108,7 +117,7 @@
     OutputResult("SumRecSeqTail l1")(SumRecSeqTail(l1));
     SumCpsSeq(l1, OutputResult("sumCpsSeq l1"));
 
-    OutputResult("SumTrampoline 100")(Trampoline(new TrampolineResult<ulong>(() => SumTrampoline(100))));
+    OutputResult("SumTrampoline 100")(Trampoline(() => SumTrampoline(100)));
 
     //var longList = Enumerable.Range(1, 300000).ToArray();
 
@@ -136,7 +145,7 @@
     // Crashes again, this time after 104539 iterations.
     //SumCpsSeq(longList, OutputResult("sumCpsSeq long"));
 
-    OutputResult("SumTrampoline 300000")(Trampoline(new TrampolineResult<ulong>(() => SumTrampoline(300000))));
+    OutputResult("SumTrampoline 300000")(Trampoline(() => SumTrampoline(300000)));
 
   }
 }

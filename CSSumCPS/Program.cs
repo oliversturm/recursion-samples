@@ -35,6 +35,37 @@
       return result;
   }
 
+  class TrampolineResult<Tout> {
+    public TrampolineResult(Func<TrampolineResult<Tout>> continuation) {
+      IsContinuation = true;
+      this.Continuation = continuation;
+    }
+    public bool IsContinuation { get; }
+    public Func<TrampolineResult<Tout>>? Continuation { get; }
+
+    public TrampolineResult(Tout result) {
+      IsContinuation = false;
+      this.Result = result;
+    }
+    public Tout? Result { get; }
+  }
+
+  static Tout Trampoline<Tout>(TrampolineResult<Tout> tr) {
+    var currentResult = tr;
+    while (currentResult != null && currentResult.IsContinuation)
+      currentResult = currentResult?.Continuation?.Invoke();
+    if (currentResult != null)
+      return currentResult.Result!;
+    else
+      throw new Exception("No result");
+  }
+
+  static TrampolineResult<ulong> SumTrampoline(ulong x, ulong current = 0) {
+    if (x == 0)
+      return new TrampolineResult<ulong>(current);
+    else
+      return new TrampolineResult<ulong>(() => SumTrampoline(x - 1, current + x));
+  }
 
   static void SumCps(ulong[] l, Action<ulong> continuation) {
     switch (l) {
@@ -77,6 +108,8 @@
     OutputResult("SumRecSeqTail l1")(SumRecSeqTail(l1));
     SumCpsSeq(l1, OutputResult("sumCpsSeq l1"));
 
+    OutputResult("SumTrampoline 100")(Trampoline(new TrampolineResult<ulong>(() => SumTrampoline(100))));
+
     //var longList = Enumerable.Range(1, 300000).ToArray();
 
     // This crashes. It also uses 2.5GB memory on the way there,
@@ -92,7 +125,7 @@
 
     // This one runs for 174220 iterations before crashing with 
     // a stack overflow
-    OutputResult("SumRecSeqTail long")(SumRecSeqTail(Range(1, 300000)));
+    //OutputResult("SumRecSeqTail long")(SumRecSeqTail(Range(1, 300000)));
 
     // This still crashes, after 130185 iterations. Interesting...
     // I think the compiler does not optimize the recursion like
@@ -102,5 +135,8 @@
 
     // Crashes again, this time after 104539 iterations.
     //SumCpsSeq(longList, OutputResult("sumCpsSeq long"));
+
+    OutputResult("SumTrampoline 300000")(Trampoline(new TrampolineResult<ulong>(() => SumTrampoline(300000))));
+
   }
 }

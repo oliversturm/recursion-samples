@@ -1,0 +1,26 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"name":"csharp","languageName":"C#","aliases":["c#","C#"]},{"name":".NET","aliases":[]},{"name":"fsharp","languageName":"F#","aliases":["f#","F#"]},{"name":"html","languageName":"HTML","aliases":[]},{"name":"kql","languageName":"KQL","aliases":[]},{"name":"mermaid","languageName":"Mermaid","aliases":[]},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"sql","languageName":"SQL","aliases":[]},{"name":"value","aliases":[]},{"name":"vscode","aliases":["frontend"],"languageName":null},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"webview","aliases":[]}]}}
+
+#!csharp
+
+int Factorial(int x) {
+  int result = 1;
+  for (int v = 2; v <= x; v++)
+    result = result * v;
+  return result;
+}
+
+Console.WriteLine(Factorial(5));
+
+#!csharp
+
+int Factorial(int x) => x > 0 ? x * Factorial(x - 1) : 1;
+
+Console.WriteLine(Factorial(5));
+
+#!fsharp
+
+let rec fact x = if x > 0 then x * (fact (x - 1)) else 1
+
+printfn "%d" (fact 5)

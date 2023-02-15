@@ -1,9 +1,19 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 class Program {
-  // Sample 1 -- just like the recursive implementation in F#
-
+  // Result output helper
   static Action<ulong> OutputResult(string prefix) => (ulong value) => Console.WriteLine($"{prefix}: {value}");
+
+  // Sample 1 and 2 -- just iterate to goal, recursively
+  static ulong Go(ulong target, ulong x) {
+    if (x != target)
+      return Go(target, x + 1);
+    else return x;
+  }
+
+  // Sample 3 -- calculate the sum of values in a list,
+  // using a recursive algorithm. Unusual in C#, but common in 
+  // other languages! 
 
   static ulong SumRec(ulong[] l) => l switch
   {
@@ -11,33 +21,42 @@ class Program {
     [var x, .. var xs] => x + SumRec(xs)
   };
 
-  // static ulong SumRecSeq(IEnumerable<ulong> s) {
-  //   // using long syntax for clarity
-  //   if (s.Any()) {
-  //     return s.First() + SumRecSeq(s.Skip(1));
-  //   }
-  //   else {
-  //     return 0;
-  //   }
-  // }
+  // Sample 4 -- same as (3), but using sequences instead of 
+  // arrays with the pattern matching syntax.
+  static ulong SumRecSeq(IEnumerable<ulong> s) {
+    // using long syntax for clarity
+    if (s.Any()) {
+      return s.First() + SumRecSeq(s.Skip(1));
+    }
+    else {
+      return 0;
+    }
+  }
 
-  // static ulong SumRecSeqTail(IEnumerable<ulong> s, ulong result = 0) {
-  //   // using long syntax for clarity
-  //   if (s.Any()) {
-  //     return SumRecSeqTail(s.Skip(1), result + s.First());
-  //   }
-  //   else {
-  //     return result;
-  //   }
-  // }
+  // Sample 5 -- now the result is passed along as a parameter,
+  // and the calculation is performed *before* the call.
+  // It is no longer necessary to return to the same call instance
+  // later to complete the calculation.
+  static ulong SumRecSeqTail(IEnumerable<ulong> s, ulong result = 0) {
+    // using long syntax for clarity
+    if (s.Any()) {
+      return SumRecSeqTail(s.Skip(1), result + s.First());
+    }
+    else {
+      return result;
+    }
+  }
 
-
-  // static ulong SumRecMaxTail(ulong max, ulong val, ulong result = 0) {
-  //   if (val < max)
-  //     return SumRecMaxTail(max, val + 1, result + val);
-  //   else
-  //     return result;
-  // }
+  // Sample 6 -- to prevent any performance issues due to the list handling
+  // (which is a bit contrived in the examples above, especially for C#),
+  // here is a variation of the last function that still calculates a sum
+  // in a very similar way, but does not use a list.
+  static ulong SumRecMaxTail(ulong max, ulong val, ulong result = 0) {
+    if (val < max)
+      return SumRecMaxTail(max, val + 1, result + val);
+    else
+      return result;
+  }
 
   // // Encapsulation of the either/or result 
   // // Not needed in dynamic languages
@@ -102,16 +121,29 @@ class Program {
 
 
   public static void Main() {
-    // Sample 1
+    // Sample 1 -- iterate to goal
+    OutputResult("Go 10")(Go(10, 0));
 
+    // Sample 2 -- larger goal
+    //OutputResult("Go 300000")(Go(300000, 0));
+
+    // Sample 3 -- calculate sum of numbers in a list
     var l1 = new ulong[] { 2, 3, 6, 8 };
     OutputResult("SumRec l1")(SumRec(l1));
 
+    // Sample 4 -- same as (3), but using an IEnumerable sequence
+    OutputResult("SumRecSeq l1")(SumRecSeq(l1));
 
-    // SumCps(l1, OutputResult("sumCps l1"));
-    // OutputResult("SumRecSeq l1")(SumRecSeq(l1));
-    // OutputResult("SumRecSeqTail l1")(SumRecSeqTail(l1));
-    // SumCpsSeq(l1, OutputResult("sumCpsSeq l1"));
+    // Sample 5 -- similar to (4), but now calculating *before* the call
+    OutputResult("SumRecSeqTail l1")(SumRecSeqTail(l1));
+
+    // Sample 6 -- using the list-less variation of the function
+    // for testing purposes
+    OutputResult("SumRecMaxTail 20")(SumRecMaxTail(20, 0));
+
+    // Sample 7 -- now for a real test: 300000
+    OutputResult("SumRecMaxTail 300000")(SumRecMaxTail(300000, 0));
+
 
     // OutputResult("SumTrampoline 100")(Trampoline(() => SumTrampoline(100)));
 

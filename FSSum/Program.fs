@@ -1,11 +1,11 @@
 ﻿// Helper for result output
-let outputResult p v = printfn "%s: %d" p v
+let outputResult p v = printfn $"%s{p}: %d{v}"
 
 // Sample 1: iterate to a target value, using recursion
 let rec go target x =
     if x <> target then go target (x + 1) else x
 
-outputResult "go 10" (go 10 0)
+//outputResult "go 10" (go 10 0)
 
 // Sample 2: use a larger goal
 //outputResult "go 300000" (go 300000 0)
@@ -17,7 +17,7 @@ outputResult "go 10" (go 10 0)
 //     function
 //     | [] -> 0UL
 //     | x :: xs -> x + (sumRec xs)
-
+//
 // let l1: list<uint64> = [ 2UL; 3UL; 6UL; 8UL ]
 
 // // Comment the above call to outputResult so the compiler is happy
@@ -30,7 +30,7 @@ outputResult "go 10" (go 10 0)
 //     match l with
 //     | [] -> r
 //     | x :: xs -> (sumRecTail xs (r + x))
-
+//
 // outputResult "sumRecTail l1" (sumRecTail l1 0UL)
 
 // // In F#, as long as we optimize the recursive function to use

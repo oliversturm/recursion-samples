@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-class Program {
+namespace CSSum;
+
+public static class Program {
   // Result output helper
   static Action<ulong> OutputResult(string prefix) => (ulong value) => Console.WriteLine($"{prefix}: {value}");
 
@@ -32,6 +34,12 @@ class Program {
     [var x, .. var xs] => x + SumRec(xs)
   };
 
+
+  static ulong SumRecSpan(Span<ulong> l) => l switch
+  {
+    [] => 0,
+    [var x, .. var xs] => x + SumRecSpan(xs)
+  };
 
 
 
@@ -189,6 +197,14 @@ class Program {
     // Sample 3 -- calculate sum of numbers in a list
     // var l1 = new ulong[] { 2, 3, 6, 8 };
     // OutputResult("SumRec l1")(SumRec(l1));
+    // OutputResult("SumRecSpan l1")(SumRecSpan(l1));
+    //
+    // var lotsOfNumbers = Enumerable.Range(1, 300000)
+    //   .Select(i => (ulong)i)
+    //   .ToArray();
+    // OutputResult("SumRec lotsOfNumbers")(SumRec(lotsOfNumbers));
+    //OutputResult("SumRecSpan lotsOfNumbers")(SumRecSpan(lotsOfNumbers));
+
 
     // Sample 4 -- same as (3), but using an IEnumerable sequence
     // OutputResult("SumRecSeq l1")(SumRecSeq(l1));

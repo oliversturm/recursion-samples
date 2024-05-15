@@ -1,4 +1,6 @@
-﻿class Program {
+﻿namespace CSPingPong;
+
+public static class Program {
   static int Ping(int c, int v) {
     return c == 0 ? v : Pong(c - 1, v + c);
   }

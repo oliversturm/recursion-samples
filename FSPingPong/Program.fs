@@ -8,4 +8,4 @@ and pong c v =
     | 0 -> v
     | _ -> ping (c - 1) (v + c)
 
-printfn "Ping/pong result: %d" (ping 300000 0)
+printfn $"Ping/pong result: %d{ping 300000 0}"

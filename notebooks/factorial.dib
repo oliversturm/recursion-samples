@@ -4,6 +4,10 @@
 
 #!markdown
 
+## Notes about this notebook
+
+#!markdown
+
 ## Factorial implementation in a purely procedural style
 
 #!csharp

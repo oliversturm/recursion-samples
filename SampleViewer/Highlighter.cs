@@ -16,51 +16,46 @@ public static class Highlighter {
       });
     }
   }
-  //
-  // static string HighlightCSharpTokenWithSymbol(SyntaxToken token, ISymbol symbol) {
-  //   if (symbol.Kind == SymbolKind.NamedType) {
-  //     return $"[#1681bb]{Markup.Escape(token.ToString())}[/]";
-  //   }
-  //   else if (symbol.Kind == SymbolKind.Method) {
-  //     return $"[red]{token}[/]";
-  //   }
-  //   else
-  //     return $"<kind={token.Kind()}>{token}</>";
-  // }
 
-  static string HighlightCSharpToken(SyntaxToken token) {
+  static string HighlightCSharpTokenWithSymbol(SyntaxToken token, ISymbol? symbol) {
     var escapedToken = Markup.Escape(token.ToString());
 
     if (token.IsKeyword()) {
       return $"[bold #000080]{escapedToken}[/]";
     }
-
-    return token.Kind() switch {
-      SyntaxKind.IdentifierToken => $"[bold]{escapedToken}[/]",
-      SyntaxKind.NumericLiteralToken or
-        SyntaxKind.StringLiteralToken or
-        SyntaxKind.InterpolatedStringStartToken or
-        SyntaxKind.InterpolatedStringTextToken or
-        SyntaxKind.InterpolatedStringEndToken => $"[#ff8d32]{escapedToken}[/]",
-      _ => $"<kind={token.Kind()}>{escapedToken}</>"
-    };
+    else if (symbol?.Kind == SymbolKind.NamedType) {
+      return $"[#1681bb]{Markup.Escape(token.ToString())}[/]";
+    }
+    else if (token.IsKind(SyntaxKind.IdentifierToken) && symbol?.Kind == SymbolKind.Method) {
+      return $"[italic]{token}[/]";
+    }
+    else {
+      return token.Kind() switch {
+        SyntaxKind.IdentifierToken => escapedToken,
+        SyntaxKind.NumericLiteralToken or
+          SyntaxKind.StringLiteralToken or
+          SyntaxKind.InterpolatedStringStartToken or
+          SyntaxKind.InterpolatedStringTextToken or
+          SyntaxKind.InterpolatedStringEndToken => $"[#ff8d32]{escapedToken}[/]",
+        _ => escapedToken
+      };
+    }
   }
 
   static string HighlightCSharp(string code) {
     var tree = CSharpSyntaxTree.ParseText(code);
-    // var compilation = CSharpCompilation.Create("Highlighting")
-    //   .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location))
-    //   .AddSyntaxTrees(tree);
-    // var semanticModel = compilation.GetSemanticModel(tree);
+    var compilation = CSharpCompilation.Create("Highlighting")
+      .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location))
+      .AddSyntaxTrees(tree);
+    var semanticModel = compilation.GetSemanticModel(tree);
     var root = tree.GetRoot();
 
     var builder = new StringBuilder();
     foreach (var token in root.DescendantTokens()) {
       AppendTrivia(builder, token.LeadingTrivia);
-      // var symbolInfo = semanticModel.GetSymbolInfo(token.Parent);
-      // var symbol = symbolInfo.Symbol;
-//      builder.Append(symbol != null ? HighlightCSharpTokenWithSymbol(token, symbol) : HighlightCSharpToken(token));
-      builder.Append(HighlightCSharpToken(token));
+      SymbolInfo? symbolInfo = token.Parent != null ? semanticModel.GetSymbolInfo(token.Parent) : null;
+      var symbol = symbolInfo?.Symbol;
+      builder.Append(HighlightCSharpTokenWithSymbol(token, symbol));
       AppendTrivia(builder, token.TrailingTrivia);
     }
 

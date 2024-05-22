@@ -23,9 +23,27 @@
         "viewFile": "Program.cs"
       },
       {
+        "projectPath": "../CSPingPong",
+        "title": "C# PingPong [bold](Release)[/]",
+        "viewFile": "Program.cs",
+        "extraRunArgs": "-c Release"
+      },
+      {
+        "projectPath": "../CSPingPong",
+        "title": "C# PingPong [bold](Release + DOTNET_TieredCompilation=0)[/]",
+        "viewFile": "Program.cs",
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ../CSPingPong -c Release\""
+      },
+      {
         "projectPath": "../FSPingPong",
         "title": "F# PingPong",
         "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "../FSPingPong",
+        "title": "F# PingPong [bold](Release)[/]",
+        "viewFile": "Program.fs",
+        "extraRunArgs": "-c Release"
       }
     ]
   }

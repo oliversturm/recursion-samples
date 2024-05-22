@@ -9,7 +9,6 @@ static class Program {
     string? configFile = null;
 
     if (args.Length == 0) {
-      // check if there's a file "config.json" in the current directory
       if (!File.Exists("config.json")) {
         AnsiConsole.Markup("[red]Please provide a path to a config file as the first parameter.[/]");
         return;
@@ -68,7 +67,10 @@ static class Program {
         return (currentSample, false);
       case "x":
         AnsiConsole.WriteLine();
-        Process.Start("dotnet", $"run --project {currentSample.ProjectPath}").WaitForExit();
+        (string command, string args) = ExtractCommandDetails(currentSample);
+        AnsiConsole.MarkupLine($"[bold]> {command} {args}[/]");
+        AnsiConsole.WriteLine();
+        Process.Start(command, args).WaitForExit();
         AnsiConsole.WriteLine();
         AnsiConsole.MarkupLine("[red]Press any key to continue[/]");
         Console.ReadKey();
@@ -77,6 +79,16 @@ static class Program {
         return (null, false);
       default:
         return (currentSample, false);
+    }
+  }
+
+  static (string, string) ExtractCommandDetails(Sample currentSample) {
+    if (currentSample.fullCommand == "") {
+      return ("dotnet", $"run --project {currentSample.ProjectPath} {currentSample.extraRunArgs}");
+    }
+    else {
+      var parts = currentSample.fullCommand.Split(' ', 2);
+      return (parts[0], parts.Length > 1 ? parts[1] : "");
     }
   }
 

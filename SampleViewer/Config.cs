@@ -11,7 +11,12 @@ namespace SampleViewer;
 //  ]}
 // ]
 
-public record Sample(string ProjectPath, string Title, string ViewFile) {
+public record Sample(
+  string ProjectPath,
+  string Title,
+  string ViewFile,
+  string extraRunArgs = "",
+  string fullCommand = "") {
   public char Shortcut { get; set; } = '1';
 }
 

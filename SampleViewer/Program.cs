@@ -59,8 +59,8 @@ static class Program {
 
     AnsiConsole.WriteLine();
     var key = AnsiConsole.Prompt(
-      new TextPrompt<string>("[red](R)[/]efresh, [red](V)[/]iew code, E[red](x)[/]ecute, [red](Q)[/]uit")
-        .InvalidChoiceMessage("Invalid key")
+      new TextPrompt<string>("[red](R)[/]efresh, [red](V)[/]iew code, E[red](x)[/]ecute, [red](Q)[/]uit > ")
+        .InvalidChoiceMessage("Invalid selection")
         .Validate(choice => choice == "q" || choice == "r" || choice == "v" || choice == "x"));
     switch (key) {
       case "r":
@@ -107,7 +107,7 @@ static class Program {
 
     Sample? currentSample = null;
     bool quit = false;
-    var key = AnsiConsole.Prompt(new TextPrompt<string>("Press a key to select a sample, or 'q' to quit")
+    var key = AnsiConsole.Prompt(new TextPrompt<string>("Enter a sample selection, or 'q' to quit > ")
       .InvalidChoiceMessage("Invalid key")
       .Validate(choice => {
         if (choice == "q") {

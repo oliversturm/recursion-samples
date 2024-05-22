@@ -1,0 +1,32 @@
+[
+  {
+    "groupTitle": "C# Sum",
+    "samples": [
+      {
+        "projectPath": "./CSSum/Step1",
+        "title": "CSSum Step 1",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./CSSum/Step2",
+        "title": "CSSum Step 2",
+        "viewFile": "Program.cs"
+      }
+    ]
+  },
+  {
+    "groupTitle": "PingPong",
+    "samples": [
+      {
+        "projectPath": "../CSPingPong",
+        "title": "C# PingPong",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../FSPingPong",
+        "title": "F# PingPong",
+        "viewFile": "Program.fs"
+      }
+    ]
+  }
+]

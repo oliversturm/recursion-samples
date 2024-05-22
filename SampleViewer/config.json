@@ -3,7 +3,7 @@
     "groupTitle": "C# Sum",
     "samples": [
       {
-        "projectPath": "./CSSum/Step1",
+        "projectPath": "../CSSum",
         "title": "CSSum Step 1",
         "viewFile": "Program.cs"
       },

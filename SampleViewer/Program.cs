@@ -48,7 +48,10 @@ static class Program {
     AnsiConsole.MarkupLine($"[bold]{currentSample.Title}[/]");
     AnsiConsole.WriteLine();
     try {
-      AnsiConsole.WriteLine(File.ReadAllText(Path.Combine(currentSample.ProjectPath, currentSample.ViewFile)));
+      string fileExtension = Path.GetExtension(currentSample.ViewFile).TrimStart('.').ToLower();
+      AnsiConsole.MarkupLine(
+        Highlighter.Highlight(File.ReadAllText(Path.Combine(currentSample.ProjectPath, currentSample.ViewFile)),
+          fileExtension));
     }
     catch (Exception ex) {
       AnsiConsole.WriteLine(ex.Message);

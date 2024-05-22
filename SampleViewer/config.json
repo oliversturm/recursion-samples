@@ -1,16 +1,57 @@
 [
   {
-    "groupTitle": "C# Sum",
+    "groupTitle": "Initial iteration samples",
     "samples": [
       {
-        "projectPath": "../CSSum",
-        "title": "CSSum Step 1",
+        "projectPath": "../Sum/FS/FSSumStep1",
+        "title": "F#: iterate to goal",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumStep1",
+        "title": "C#: iterate to goal",
         "viewFile": "Program.cs"
       },
       {
-        "projectPath": "./CSSum/Step2",
-        "title": "CSSum Step 2",
+        "projectPath": "../Sum/FS/FSSumStep2",
+        "title": "F#: iterate to larger goal",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumStep2",
+        "title": "C#: iterate to larger goal",
         "viewFile": "Program.cs"
+      }
+    ]
+  },
+  {
+    "groupTitle": "Sum calculation",
+    "samples": [
+      {
+        "projectPath": "../Sum/CS/CSSumStep3",
+        "title": "C# Sum: basic recursion with few values",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumStep4",
+        "title": "C# Sum: basic recursion with many values",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumStep5",
+        "title": "C# Sum: tail recursion with many values",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumStep5",
+        "title": "C# Sum: tail recursion with many values [bold](Release)[/]",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumStep5",
+        "title": "C# Sum: tail recursion with many values [bold](Release + DOTNET_TieredCompilation=0)[/]",
+        "viewFile": "Program.cs",
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ../Sum/CS/CSSumStep5 -c Release\""
       }
     ]
   },

@@ -45,7 +45,14 @@
       {
         "projectPath": "../Sum/CS/CSSumStep5",
         "title": "C# Sum: tail recursion with many values [bold](Release)[/]",
-        "viewFile": "Program.cs"
+        "viewFile": "Program.cs",
+        "extraRunArgs": "-c Release"
+      },
+      {
+        "projectPath": "../Sum/FS/FSSumStep3",
+        "title": "F# Sum: tail recursion with many values [bold](Release)[/]",
+        "viewFile": "Program.fs",
+        "extraRunArgs": "-c Release"
       },
       {
         "projectPath": "../Sum/CS/CSSumStep5",
@@ -59,29 +66,29 @@
     "groupTitle": "PingPong",
     "samples": [
       {
-        "projectPath": "../CSPingPong",
+        "projectPath": "../PingPong/CSPingPong",
         "title": "C# PingPong",
         "viewFile": "Program.cs"
       },
       {
-        "projectPath": "../CSPingPong",
+        "projectPath": "../PingPong/CSPingPong",
         "title": "C# PingPong [bold](Release)[/]",
         "viewFile": "Program.cs",
         "extraRunArgs": "-c Release"
       },
       {
-        "projectPath": "../CSPingPong",
+        "projectPath": "../PingPong/CSPingPong",
         "title": "C# PingPong [bold](Release + DOTNET_TieredCompilation=0)[/]",
         "viewFile": "Program.cs",
-        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ../CSPingPong -c Release\""
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ../PingPong/CSPingPong -c Release\""
       },
       {
-        "projectPath": "../FSPingPong",
+        "projectPath": "../PingPong/FSPingPong",
         "title": "F# PingPong",
         "viewFile": "Program.fs"
       },
       {
-        "projectPath": "../FSPingPong",
+        "projectPath": "../PingPong/FSPingPong",
         "title": "F# PingPong [bold](Release)[/]",
         "viewFile": "Program.fs",
         "extraRunArgs": "-c Release"

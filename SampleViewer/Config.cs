@@ -26,11 +26,13 @@ public static class Config {
   public static void AssignShortcuts(List<SampleGroup> config) {
     // Assign shortcuts to all samples nested in the groups
     // Begin with '1', go to '9', then continue from 'a'
+    // Skip 'q' because we use it for quitting the app
     char shortcut = '1';
     foreach (var group in config) {
       foreach (var sample in group.Samples) {
         sample.Shortcut = shortcut++;
         if (shortcut == ':') shortcut = 'a';
+        if (shortcut == 'q') shortcut = 'r';
       }
     }
   }

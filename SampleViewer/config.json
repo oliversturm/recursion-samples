@@ -94,5 +94,26 @@
         "extraRunArgs": "-c Release"
       }
     ]
+  },
+  {
+    "groupTitle": "Advanced solutions",
+    "samples": [
+      {
+        "projectPath": "../Sum/CS/CSSumTrampolining",
+        "title": "C# Sum: Trampolining",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumCPS",
+        "title": "C# Sum: Continuation Passing Style",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "../Sum/CS/CSSumCPS",
+        "title": "C# Sum: Continuation Passing Style [bold](Release + DOTNET_TieredCompilation=0)[/]",
+        "viewFile": "Program.cs",
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ../Sum/CS/CSSumCPS -c Release\""
+      }
+    ]
   }
 ]

@@ -113,6 +113,17 @@
         "title": "C# Sum: Continuation Passing Style [bold](Release + DOTNET_TieredCompilation=0)[/]",
         "viewFile": "Program.cs",
         "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ../Sum/CS/CSSumCPS -c Release\""
+      },
+      {
+        "projectPath": "../Sum/FS/FSSumCPS",
+        "title": "F# Sum: Continuation Passing Style",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "../Sum/FS/FSSumCPS",
+        "title": "F# Sum: Continuation Passing Style [bold](Release)[/]",
+        "viewFile": "Program.fs",
+        "extraRunArgs": "-c Release"
       }
     ]
   }

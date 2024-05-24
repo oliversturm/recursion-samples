@@ -1,21 +1,21 @@
 ﻿namespace CSSumCPS;
 
 public static class Program {
-  static Action<ulong> OutputResult(string prefix) =>
-    value => Console.WriteLine($"{prefix}: {value}");
+  // Return an int this time, just in an effort to make the structure
+  // exactly like the one in F# (other than the return type).
+  static Func<ulong, int> OutputResult(string prefix) =>
+    value => {
+      Console.WriteLine($"{prefix}: {value}");
+      return 0;
+    };
 
   // I tested a few variations, but the JIT does not agree that this implementation
-  // is tail-recursive. Unfortunately I don't know how to find out why.
-  static void SumCps(Span<ulong> l, Action<ulong> continuation) {
-    switch (l) {
-      case []:
-        continuation(0);
-        return;
-      case [var x, .. var xs]:
-        SumCps(xs, ix => continuation(ix + x));
-        return;
-    }
-  }
+  // is tail-recursive.
+  static int SumCps(Span<ulong> l, Func<ulong, int> continuation) =>
+    l switch {
+      [] => continuation(0),
+      [var x, .. var xs] => SumCps(xs, ix => continuation(ix + x))
+    };
 
   public static void Main() {
     var lotsOfNumbers = Enumerable.Range(1, 300000)

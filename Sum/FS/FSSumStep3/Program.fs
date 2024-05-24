@@ -1,9 +1,9 @@
 ﻿let outputResult p v = printfn $"%s{p}: %d{v}"
 
-let rec sumRecTail l r =
+let rec sumTail l r =
     match l with
     | [] -> r
-    | x :: xs -> (sumRecTail xs (r + x))
+    | x :: xs -> (sumTail xs (r + x))
 
 let longList: list<uint64> = [ 1UL .. 300000UL ]
-outputResult "sumRecTail long" (sumRecTail longList 0UL)
+outputResult "sumTail long" (sumTail longList 0UL)

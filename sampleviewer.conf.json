@@ -1,0 +1,130 @@
+[
+  {
+    "groupTitle": "Initial iteration samples",
+    "samples": [
+      {
+        "projectPath": "./Sum/FS/FSSumStep1",
+        "title": "F#: iterate to goal",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumStep1",
+        "title": "C#: iterate to goal",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./Sum/FS/FSSumStep2",
+        "title": "F#: iterate to larger goal",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumStep2",
+        "title": "C#: iterate to larger goal",
+        "viewFile": "Program.cs"
+      }
+    ]
+  },
+  {
+    "groupTitle": "Sum calculation",
+    "samples": [
+      {
+        "projectPath": "./Sum/CS/CSSumStep3",
+        "title": "C# Sum: basic recursion with few values",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumStep4",
+        "title": "C# Sum: basic recursion with many values",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumStep5",
+        "title": "C# Sum: tail recursion with many values",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumStep5",
+        "title": "C# Sum: tail recursion with many values [bold](Release)[/]",
+        "viewFile": "Program.cs",
+        "extraRunArgs": "-c Release"
+      },
+      {
+        "projectPath": "./Sum/FS/FSSumStep3",
+        "title": "F# Sum: tail recursion with many values [bold](Release)[/]",
+        "viewFile": "Program.fs",
+        "extraRunArgs": "-c Release"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumStep5",
+        "title": "C# Sum: tail recursion with many values [bold](Release + DOTNET_TieredCompilation=0)[/]",
+        "viewFile": "Program.cs",
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ./Sum/CS/CSSumStep5 -c Release\""
+      }
+    ]
+  },
+  {
+    "groupTitle": "PingPong",
+    "samples": [
+      {
+        "projectPath": "./PingPong/CSPingPong",
+        "title": "C# PingPong",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./PingPong/CSPingPong",
+        "title": "C# PingPong [bold](Release)[/]",
+        "viewFile": "Program.cs",
+        "extraRunArgs": "-c Release"
+      },
+      {
+        "projectPath": "./PingPong/CSPingPong",
+        "title": "C# PingPong [bold](Release + DOTNET_TieredCompilation=0)[/]",
+        "viewFile": "Program.cs",
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ./PingPong/CSPingPong -c Release\""
+      },
+      {
+        "projectPath": "./PingPong/FSPingPong",
+        "title": "F# PingPong",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "./PingPong/FSPingPong",
+        "title": "F# PingPong [bold](Release)[/]",
+        "viewFile": "Program.fs",
+        "extraRunArgs": "-c Release"
+      }
+    ]
+  },
+  {
+    "groupTitle": "Advanced solutions",
+    "samples": [
+      {
+        "projectPath": "./Sum/CS/CSSumTrampolining",
+        "title": "C# Sum: Trampolining",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumCPS",
+        "title": "C# Sum: Continuation Passing Style",
+        "viewFile": "Program.cs"
+      },
+      {
+        "projectPath": "./Sum/CS/CSSumCPS",
+        "title": "C# Sum: Continuation Passing Style [bold](Release + DOTNET_TieredCompilation=0)[/]",
+        "viewFile": "Program.cs",
+        "fullCommand": "bash -c \"DOTNET_TieredCompilation=0 dotnet run --project ./Sum/CS/CSSumCPS -c Release\""
+      },
+      {
+        "projectPath": "./Sum/FS/FSSumCPS",
+        "title": "F# Sum: Continuation Passing Style",
+        "viewFile": "Program.fs"
+      },
+      {
+        "projectPath": "./Sum/FS/FSSumCPS",
+        "title": "F# Sum: Continuation Passing Style [bold](Release)[/]",
+        "viewFile": "Program.fs",
+        "extraRunArgs": "-c Release"
+      }
+    ]
+  }
+]
